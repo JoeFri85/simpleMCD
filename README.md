@@ -1,13 +1,13 @@
 # simpleMCD
 
-  This is a simple Minecraft Server Daemon.  It creates a screen session and then pushes commands to it to start and stop the server.
-It consists of two files. The first is the simpleMCD.service file.  This file contains the run commands to open the screen session and 
-start the minecraft server in this screen session, this file also executes the miencraftStop script to stop the server in the event of a 
-server restart, normal shutdown, or if the daemon is stopped.  The second is the minecraftStop script, this issues the stop command to the 
-screen session.
+This is a simple Minecraft Server Daemon.  It creates a screen session and then pushes commands to it to start and stop the server.
+It consists of a single file .service file.  This file contains the run commands to open the screen session and start the minecraft 
+server in this screen session along with the stop commands to shutdown the minecraft server safely during a reboot or normal shutdown 
+of the machine.
 
 By default this daemon is set up for the minecraft files to be located in the /srv/minecraft directory and owned by a user named 
 minecraft.
+
 simpleMCD.service should be placed in the /etc/systemd/system directory and owned by root: 
 
 	sudo cp simpleMCD.service /etc/systemd/system
@@ -41,25 +41,29 @@ activities that have happend on your server.  You can enter console commands her
 	/help
 
 The following are advanced configuration options for if you want to change the allotted resources to run the server or if your 
-configureation is different from the default settings.  Any configurations will be done in the simpleMCD.service file, after changing this 
-file it is required to reload and restart the daemon
+configureation is different from the default settings.  Any configurations will be done in the simpleMCD.service file, after changing 
+this file it is required to reload and restart the daemon:
 
 	systemctl daemon-reload
 	systemctl restart simpleMCD
 	
 The file is commented thoroghly for configuration purposes but here is a rundown of what can be changed.  
-By default this daemon is set to allot 1Gb of ram to running the server but it can be adjusted in the second ExecStart= line.
+By default this daemon is set to allot 1Gb of ram to running the server but it can be adjusted in the second ExecStart= line:
   
 	ExecStart=/usr/bin/screen -S minecraft -X stuff "java -Xmx1G -Xms1G -jar minecraft_server.jar -nogui\r"
 	
-The first ExecStart= line should be changed if the location of your minecraft files is not the /srv/minecraft directory.
+The first ExecStart= line should be changed if the location of your minecraft files is not the /srv/minecraft directory:
 
 	ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
+	
+If you are finding that the screen session is terminating too fast you can adjust that on this line, the default is 5 seconds:
 
-The path to the minecraftStop script should be changed on the ExecStop= line if yours differs.
+	xecStop=/usr/bin/timeout 5 sleep 5
 
-	ExecStop=/srv/minecraft/minecraftStop
-
-If the user that owns the minecraft files is different, then the correct user should be entered on the User= line.
+If the user that owns the minecraft files is different, then the correct user should be entered on the User= line:
 
 	User=minecraft
+	
+If you desire to change the description that is displayed in systemctl, you can change the Description= line:
+
+	Description=Simple Mincraft Daemon
