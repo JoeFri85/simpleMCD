@@ -1,7 +1,7 @@
 
 [Unit]
 ## Description that is displayed
-Description=Simple Minecraft Daemon
+Description=Simple Mincraft Daemon
 
 After=network.target
 
@@ -9,23 +9,32 @@ After=network.target
 Type=oneshot
 RemainAfterExit=yes
 
-## Runs the service as this user (change to the owner of your minecraft file or comment to have it run as root)
+
+## Runs the service as this user (change to the owner of your minecraft files)
 User=minecraft
 
 
 ## opens the screen session
 ExecStart=/usr/bin/screen -dmS minecraft
 
-## Changes the directory of the screen session to the location of your minecraft files
+## Change the directory of the screen session to the location of your minecraft files
 ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
 
-## This is the command to start the minecraft server, ensure that you rename a copy of your 
+## This is the command to start the minecraft server, ensure that you rename a copy of your
 ## minecraft_server.x.xx.x.jar as minecraft_server.jar, otherwise you will have to change this line every update
-## Also -Xmx1G and -Xms1G can be changed for the alloted resources (currently set to 1Gb)
+## Also -Xmx1G and -Xms1G can be changed for the alloted resources
 ExecStart=/usr/bin/screen -S minecraft -X stuff "java -Xmx1G -Xms1G -jar minecraft_server.jar -nogui\r"
 
-## if the path to your minecraftStop script is different, then correct the path here
-ExecStop=/srv/minecraft/minecraftStop
+
+## Sends the stop command to the screen session
+ExecStop=/usr/bin/screen -S minecraft -X stuff "stop\r"
+
+## Inserts a delay so the server can shutdown properly, can be adjusted. Default is 5 seconds, change both numbers.
+ExecStop=/usr/bin/timeout 5 sleep 5
+
+## Sends the exit command to the screen session to terminate the session
+ExecStop=/usr/bin/screen -S minecraft -X stuff "exit\r"
+
 
 [Install]
 WantedBy=multi-user.target
