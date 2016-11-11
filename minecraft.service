@@ -16,15 +16,15 @@ User=minecraft
 ## opens the screen session
 ExecStart=/usr/bin/screen -dmS minecraft
 
-## Change the director to the location of your minecraft files
+## Change the directory to the location of your minecraft files
 ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
 
 ## This is the command to start the minecraft server, ensure that you rename a copy of your
-## minecraft_server.x.xx.x.jar as minecraft_server.jar, otherwise you will have to change this line every update
-## Also -Xmx1G and -Xms1G can be changed for the alloted resources
+## minecraft_server.x.xx.x.jar to minecraft_server.jar, otherwise you will have to change this line every update
+## Also -Xmx1G and -Xms1G can be changed for the alloted resources (set to 1Gb of ram by default)
 ExecStart=/usr/bin/screen -S minecraft -X stuff "java -Xmx1G -Xms1G -jar minecraft_server.jar -nogui\r"
 
-## if the path to minecraftStop script is different then change it here
+## if the path to the minecraftStop script is different then change it here
 ExecStop=/srv/minecraft/minecraftStop
 
 [Install]
