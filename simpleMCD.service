@@ -1,7 +1,7 @@
 
 [Unit]
 ## Description that is displayed
-Description='Minecraft Service'
+Description=Simple Minecraft Daemon
 
 After=network.target
 
@@ -16,7 +16,7 @@ User=minecraft
 ## opens the screen session
 ExecStart=/usr/bin/screen -dmS minecraft
 
-## Change the directory of the screen session to the location of your minecraft files
+## Changes the directory of the screen session to the location of your minecraft files
 ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
 
 ## This is the command to start the minecraft server, ensure that you rename a copy of your 
@@ -24,7 +24,7 @@ ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
 ## Also -Xmx1G and -Xms1G can be changed for the alloted resources (currently set to 1Gb)
 ExecStart=/usr/bin/screen -S minecraft -X stuff "java -Xmx1G -Xms1G -jar minecraft_server.jar -nogui\r"
 
-## if the path to the minecraftStop script is different, then correct the path here
+## if the path to your minecraftStop script is different, then correct the path here
 ExecStop=/srv/minecraft/minecraftStop
 
 [Install]
