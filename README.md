@@ -6,13 +6,17 @@ start the minecraft server in this screen session, this file also executes the m
 server restart, normal shutdown, or if the daemon is stopped.  The second is the minecraftStop script, this issues the stop command to the 
 screen session.
 
-  By default this daemon is set up for the minecraft files to be located in the /srv/minecraft directory and owned by a user named 
+By default this daemon is set up for the minecraft files to be located in the /srv/minecraft directory and owned by a user named 
 minecraft.
-  simpleMCD.service should be placed in the /etc/systemd/system directory and owned by root: "sudo cp simpleMCD.service 
-/etc/systemd/system"
-  The minecraftStop should be placed with the rest of your minecraft files and ownership set to your minecraft user: "cp 
-minecraftStop /srv/minecraft" and "sudo chown minecraft:minecraft /srv/minecraft/minecraftStop"
-  The .jar file that starts the server should be renamed from minecraft_server.x.xx.x.jar to minecraft_server.jar (remove version 
+simpleMCD.service should be placed in the /etc/systemd/system directory and owned by root: 
+
+	"sudo cp simpleMCD.service /etc/systemd/system"
+
+The minecraftStop should be placed with the rest of your minecraft files and ownership set to your minecraft user: 
+
+	"cp minecraftStop /srv/minecraft" and "sudo chown minecraft:minecraft /srv/minecraft/minecraftStop"
+
+The .jar file that starts the server should be renamed from minecraft_server.x.xx.x.jar to minecraft_server.jar (remove version 
 numbers,) otherwise every time there is an update to the minecraft server you will need to update the .service file aswell.  
   Ensure that the minecraftStop script and the minecraft_server.jar are both executable: "chmod ug+x minecraftStop" and "chmod ug+x 
 minecraft_server.jar"  
