@@ -1,0 +1,31 @@
+
+[Unit]
+## Description that is displayed
+Description='Minecraft Service'
+
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+## Runs the service as this user (change to the owner of your minecraft files)
+User=minecraft
+
+
+## opens the screen session
+ExecStart=/usr/bin/screen -dmS minecraft
+
+## Change the director to the location of your minecraft files
+ExecStart=/usr/bin/screen -S minecraft -X stuff "cd /srv/minecraft\r"
+
+## This is the command to start the minecraft server, ensure that you rename a copy of your
+## minecraft_server.x.xx.x.jar as minecraft_server.jar, otherwise you will have to change this line every update
+## Also -Xmx1G and -Xms1G can be changed for the alloted resources
+ExecStart=/usr/bin/screen -S minecraft -X stuff "java -Xmx1G -Xms1G -jar minecraft_server.jar -nogui\r"
+
+## if the path to minecraftStop script is different then change it here
+ExecStop=/srv/minecraft/minecraftStop
+
+[Install]
+WantedBy=multi-user.target

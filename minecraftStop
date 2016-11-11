@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Minecraft Server stop command
+screen -S minecraft -X stuff "stop $(printf \\r)"
+# Delays the script to ensure minecraft has time to shut down safely
+sleep 5
+# Exits the screen session
+screen -S minecraft -X stuff "exit $(printf \\r)"
