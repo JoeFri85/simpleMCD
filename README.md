@@ -12,11 +12,6 @@ simpleMCD.service should be placed in the /etc/systemd/system directory and owne
 
 	sudo cp simpleMCD.service /etc/systemd/system
 
-The minecraftStop should be placed with the rest of your minecraft files and ownership set to your minecraft user: 
-
-	cp minecraftStop /srv/minecraft
-	sudo chown minecraft:minecraft /srv/minecraft/minecraftStop
-
 The .jar file that starts the server should be renamed from minecraft_server.x.xx.x.jar to minecraft_server.jar (remove version 
 numbers,) otherwise every time there is an update to the minecraft server you will need to update the .service file aswell.  
 Ensure that the minecraftStop script and the minecraft_server.jar are both executable: 
